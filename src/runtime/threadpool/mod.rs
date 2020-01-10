@@ -166,8 +166,8 @@ pub fn run_std<F>(future: F)
 where
     F: Future<Output = ()> + Send + 'static,
 {
-    let runtime = Runtime::new().expect("failed to start new Runtime");
-    runtime.spawn_std(future);
+    let mut runtime = Runtime::new().expect("failed to start new Runtime");
+    runtime.block_on_std(future);
     runtime.shutdown_on_idle().wait().unwrap();
 }
 
